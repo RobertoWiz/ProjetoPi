@@ -5,6 +5,15 @@
  */
 package projetoPI.view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import projetoPI.controller.RelatorioController;
+
 
 public class RelatórioVendaView extends javax.swing.JFrame {
 
@@ -14,8 +23,60 @@ public class RelatórioVendaView extends javax.swing.JFrame {
     public RelatórioVendaView() {
         initComponents();
         this.setLocationRelativeTo(null);
+       
+       
+        
     }
 
+      public void Total() { 
+     // float  total = 0;
+     //  float a ;
+     //  String b ;
+    
+      // for (int i=0;i<2;i++) {
+     //  a =Integer.parseInt(tblRelatorio.getModel().getValueAt(i, 4).toString());
+     //  total = total +  a;
+      //  }
+      //  b = "R$ "+ total;
+        txtTotalGeral.setText(tblRelatorio.getModel().getValueAt(0, 6).toString());
+        //return b;
+         }
+ 
+    
+    public void LoadTable19(String dataini, String datafim) {
+        ArrayList<String[]> listaRelatorios = RelatorioController.buscaRelatorio(dataini,datafim);
+
+        DefaultTableModel tmRelatorio = new DefaultTableModel();
+        tmRelatorio.addColumn("ID");
+        tmRelatorio.addColumn("Data");
+        tmRelatorio.addColumn("Cpf");
+        tmRelatorio.addColumn("Pedido"); //2
+        tmRelatorio.addColumn("Qtd Itens");
+        tmRelatorio.addColumn("Total Pedido");
+        tmRelatorio.addColumn("ValorTotal");
+        
+        
+
+        tblRelatorio.setModel(tmRelatorio);
+
+        tblRelatorio.removeColumn(tblRelatorio.getColumnModel().getColumn(0));
+        tblRelatorio.removeColumn(tblRelatorio.getColumnModel().getColumn(5));
+        
+        for (String[] c : listaRelatorios) {
+            tmRelatorio.addRow(c);
+        }
+
+        //Defino o tamanho para cada coluna
+        // tmProduto.getColumnModel().getColumn(0).setPreferredWidth(50); //ID
+        tblRelatorio.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tblRelatorio.getColumnModel().getColumn(1).setPreferredWidth(30);
+        tblRelatorio.getColumnModel().getColumn(2).setPreferredWidth(30);
+        tblRelatorio.getColumnModel().getColumn(3).setPreferredWidth(30);
+        tblRelatorio.getColumnModel().getColumn(4).setPreferredWidth(30);
+        //tblRelatorio.getColumnModel().getColumn(5).setPreferredWidth(30);
+       
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,18 +91,17 @@ public class RelatórioVendaView extends javax.swing.JFrame {
         pnlPesquisa = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         btnPesquisar = new javax.swing.JButton();
+        txtDataini = new javax.swing.JFormattedTextField();
+        txtDatafim = new javax.swing.JFormattedTextField();
         jLabel14 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtTotalGeral = new javax.swing.JTextField();
         btnAnalitco = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblRelatorio = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Compra Personalizada");
@@ -63,38 +123,54 @@ public class RelatórioVendaView extends javax.swing.JFrame {
             }
         });
 
+        txtDataini.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+
+        txtDatafim.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+
         javax.swing.GroupLayout pnlPesquisaLayout = new javax.swing.GroupLayout(pnlPesquisa);
         pnlPesquisa.setLayout(pnlPesquisaLayout);
         pnlPesquisaLayout.setHorizontalGroup(
             pnlPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPesquisaLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(29, 29, 29)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(txtDataini, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
-                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(88, 88, 88)
+                .addComponent(txtDatafim, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
                 .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlPesquisaLayout.setVerticalGroup(
             pnlPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPesquisaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel5)
-                        .addComponent(jLabel6)))
+                .addGroup(pnlPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlPesquisaLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(pnlPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtDataini, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(pnlPesquisaLayout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addGroup(pnlPesquisaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtDatafim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))))
                 .addGap(22, 22, 22))
         );
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/blue-chart-icon.png"))); // NOI18N
+
+        txtTotalGeral.setFont(new java.awt.Font("Agency FB", 0, 24)); // NOI18N
+        txtTotalGeral.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtTotalGeral.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTotalGeralActionPerformed(evt);
+            }
+        });
 
         btnAnalitco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/yellow-document-download-icon.png"))); // NOI18N
         btnAnalitco.setText("Analítico");
@@ -104,7 +180,7 @@ public class RelatórioVendaView extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblRelatorio.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -611,14 +687,14 @@ public class RelatórioVendaView extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.Object.class, java.lang.Float.class, java.lang.Float.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable2);
+        jScrollPane1.setViewportView(tblRelatorio);
 
         jLabel4.setFont(new java.awt.Font("Agency FB", 0, 24)); // NOI18N
         jLabel4.setText("Valor Total do Periodo (R$)");
@@ -628,8 +704,6 @@ public class RelatórioVendaView extends javax.swing.JFrame {
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/red-cross-icon (1).png"))); // NOI18N
         btnCancelar.setText("Cancelar");
-
-        jLabel1.setText("Clique 2x para abrir analitico completo");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -649,19 +723,19 @@ public class RelatórioVendaView extends javax.swing.JFrame {
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel2)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 201, Short.MAX_VALUE))
                     .addComponent(pnlPesquisa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 592, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtTotalGeral, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(161, 161, 161)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(158, 158, 158))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -673,14 +747,12 @@ public class RelatórioVendaView extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(pnlPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTotalGeral, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addGap(24, 24, 24)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAnalitco)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -700,15 +772,15 @@ public class RelatórioVendaView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 826, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -719,13 +791,40 @@ public class RelatórioVendaView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnalitcoActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        // TODO add your handling code here:
+if (ValidarFormulario()){ 
+   DataPesquisa();
+   String dataini = txtDataini.getText();
+    String datafim = txtDatafim.getText();
+   // DataPesquisa2();
+  
+   RelatorioController.buscaRelatorio(dataini,datafim);
+   this.LoadTable19(dataini,datafim);
+   Total();
+   ///txtTotalGeral.setText("rw");
+   
+}
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
+    private void txtTotalGeralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalGeralActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotalGeralActionPerformed
+
+    public String  DataPesquisa() {
+       String  dataini = txtDataini.getText();
+       ////String datafim = txtdatafim.getCalendar().toString();
+       return dataini;
+        }
+    
+     
+    
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) { 
+        
+       
+       
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -762,9 +861,6 @@ public class RelatórioVendaView extends javax.swing.JFrame {
     private javax.swing.JButton btnAnalitco;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnPesquisar;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -773,8 +869,54 @@ public class RelatórioVendaView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel pnlPesquisa;
+    private javax.swing.JTable tblRelatorio;
+    private javax.swing.JFormattedTextField txtDatafim;
+    private javax.swing.JFormattedTextField txtDataini;
+    private javax.swing.JTextField txtTotalGeral;
     // End of variables declaration//GEN-END:variables
+
+        private boolean ValidarFormulario() {
+
+        if (this.txtDataini.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Defina uma data inicial");
+            return false;
+        }
+
+        if (this.txtDatafim.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Defina uma data final");
+            return false;
+        }
+
+       // if  { 
+            
+         //   (Date dataInicial, dataFinal;
+        //     String strDataInicial = txtDataini.getText();
+        //      String strDataFinal = txtDatafim.getText();
+         //   
+                
+         //   SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+          //  SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+          //  dataFinal = sdf1.parse(strDataFinal);
+         //   dataInicial = sdf2.parse(strDataInicial);
+         //   dataInicial.after(dataFinal));
+        
+                  
+          //  JOptionPane.showMessageDialog(this, "Defina UM VALOR PARA O DATA NASCIMENTO");
+           // return false;
+       // }
+
+
+        return true;
+
+    }
+
+// public void DataPesquisa(String dataini) {
+  //     dataini = "22/11/2019";
+       //String datafim = txtdatafim.getCalendar().toString();
+      
+    //    }
+
+  
 }

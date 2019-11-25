@@ -18,6 +18,8 @@ public class TelaInicialView extends javax.swing.JFrame {
     CadastroProdutoView produto = new CadastroProdutoView();
     CadastroVendaView venda = new CadastroVendaView();
     RelatórioVendaView relatorio = new RelatórioVendaView();
+    AnaliticoVendaView analitico = new AnaliticoVendaView();
+    SobreView sobre = new SobreView();
     public TelaInicialView() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -53,7 +55,7 @@ public class TelaInicialView extends javax.swing.JFrame {
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         jMenuItem7.setText("jMenuItem7");
 
@@ -207,21 +209,41 @@ public class TelaInicialView extends javax.swing.JFrame {
         jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
         jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/red-chart-icon.png"))); // NOI18N
         jMenuItem8.setText("Vendas no Periodo");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                relatorioMenuActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem8);
 
         jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F7, 0));
         jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/red-chart-icon.png"))); // NOI18N
-        jMenuItem9.setText("Estoque");
+        jMenuItem9.setText("Analítico");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analiticoMenuActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem9);
 
         jMenuBar1.add(jMenu4);
 
         jMenu3.setText("Sobre");
         jMenu3.setFont(new java.awt.Font("Agency FB", 0, 24)); // NOI18N
+        jMenu3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sobreMenuActionPerformed(evt);
+            }
+        });
 
-        jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/red-notes-icon.png"))); // NOI18N
-        jMenu5.setText("Versão");
-        jMenu3.add(jMenu5);
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/red-notes-icon.png"))); // NOI18N
+        jMenuItem1.setText("Sobre");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sobreMenuActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem1);
 
         jMenuBar1.add(jMenu3);
 
@@ -323,6 +345,18 @@ public class TelaInicialView extends javax.swing.JFrame {
         venda.setVisible(true);
     }//GEN-LAST:event_vendaMenuActionPerformed
 
+    private void relatorioMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatorioMenuActionPerformed
+        relatorio.setVisible(true);
+    }//GEN-LAST:event_relatorioMenuActionPerformed
+
+    private void analiticoMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analiticoMenuActionPerformed
+        analitico.setVisible(true);
+    }//GEN-LAST:event_analiticoMenuActionPerformed
+
+    private void sobreMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sobreMenuActionPerformed
+     sobre.setVisible(true)  ;      // TODO add your handling code here:
+    }//GEN-LAST:event_sobreMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -368,8 +402,8 @@ public class TelaInicialView extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;

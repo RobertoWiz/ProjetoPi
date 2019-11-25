@@ -6,7 +6,10 @@
 package projetoPI.view;
 
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import projetoPI.DAO.ProdutoDAO;
 
@@ -14,11 +17,18 @@ import projetoPI.controller.ProdutoController;
 import projetoPI.model.Produto;
 
 public final class ListaProdutoView extends javax.swing.JFrame {
-
+    private String modoTela;
+    public CadastroVendaView telaVenda = new CadastroVendaView();
+    
     public ListaProdutoView() {
+        
         initComponents();
+        
+        
         this.setLocationRelativeTo(null);
-        LoadTable();
+         tblProduto.setVisible(false);
+        
+       // LoadTable();
         //  tblProduto.setVisible(true);
     }
 
@@ -31,18 +41,8 @@ public final class ListaProdutoView extends javax.swing.JFrame {
         tmProduto.addColumn("Nome");
         tmProduto.addColumn("Estoque");
         tmProduto.addColumn("Valor");
-
+          tmProduto.addColumn("Categoria");
         tblProduto.setModel(tmProduto);
-
-        //Removo a coluna da View (JTable) mas mantenho na model para armazenar o ID
-        //  tblProduto.removeColumn(tblProduto.getColumnModel().getColumn(20));
-        //  tblProduto.removeColumn(tblProduto.getColumnModel().getColumn(21));
-        //  tblProduto.removeColumn(tblProduto.getColumnModel().getColumn(22));
-        //Opção 2 - Descomentar linhas abaixo caso queira reutilizar o modelo padrão
-        //Resgato o modelo da tabela
-        // DefaultTableModel tmProduto = (DefaultTableModel) this.txtIdProduto.getModel();
-        ////Limpo a tabela, excluindo todas as linhas
-        //tmClientes.setRowCount(0);
         for (String[] c : listaProdutos) {
             tmProduto.addRow(c);
         }
@@ -53,6 +53,7 @@ public final class ListaProdutoView extends javax.swing.JFrame {
         tblProduto.getColumnModel().getColumn(1).setPreferredWidth(100);
         tblProduto.getColumnModel().getColumn(2).setPreferredWidth(100);
         tblProduto.getColumnModel().getColumn(3).setPreferredWidth(100);
+         tblProduto.getColumnModel().getColumn(4).setPreferredWidth(100);
 
     }
 
@@ -71,7 +72,7 @@ public final class ListaProdutoView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProduto = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        btnAtualizar = new javax.swing.JButton();
+        btnPesquisar = new javax.swing.JButton();
         categoriaBox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         btnSelecionar = new javax.swing.JButton();
@@ -133,15 +134,15 @@ public final class ListaProdutoView extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tw Cen MT", 1, 36)); // NOI18N
         jLabel2.setText("Selecione Produto");
 
-        btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/blue-search-icon.png"))); // NOI18N
-        btnAtualizar.setText("Pesquisa");
-        btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
+        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/blue-search-icon.png"))); // NOI18N
+        btnPesquisar.setText("Pesquisa");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAtualizarActionPerformed(evt);
+                btnPesquisarActionPerformed(evt);
             }
         });
 
-        categoriaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cama, Mesa e Banho", "Utensilios Domesticos", "Decoracao", "Iluminacao", "Movel" }));
+        categoriaBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cama, Mesa e Banho", "Utensílios Doméstios ", "Decoração", "Iluminação", "Móveis" }));
         categoriaBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 categoriaBoxActionPerformed(evt);
@@ -164,13 +165,13 @@ public final class ListaProdutoView extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
                                 .addComponent(categoriaBox, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(62, 62, 62)
-                                .addComponent(btnAtualizar))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnPesquisar)))))
                 .addContainerGap(288, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -184,7 +185,7 @@ public final class ListaProdutoView extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(categoriaBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(btnAtualizar))
+                    .addComponent(btnPesquisar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
@@ -235,34 +236,49 @@ public final class ListaProdutoView extends javax.swing.JFrame {
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
 
+     if(tblProduto.getRowCount() > 0){
+         int id = tblProduto.getSelectedRow();
+         buscaProduto(id);
+         selecionaProduto();
+         selId();
+         selNome();
+         //Passar os dados para a tela de venda
+         this.telaVenda.definirCodigoProduto(selId());
+         this.telaVenda.definirNomeProduto(selNome());
+          this.telaVenda.definirEstoque(selEstoque());
+           this.telaVenda.definirValor(selValor());
+        
+         
+     }
+     this.dispose();
     }//GEN-LAST:event_btnSelecionarActionPerformed
 
-    private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:     
-        
-         if (tblProduto.getRowCount() > 0) {
-
-                if (!categoriaBox.getSelectedItem().toString().equals("")) {
-                    String categoria = String.valueOf(categoriaBox.getSelectedItem());
-
-                    buscaProduto(categoria);
-                } /*else {
-                    nome = txtNome.getText().toLowerCase();
-
-                    buscaProduto();
-                }*/
-
+        //LoadTable();
+        if(!ProdutoController.getProdutos().isEmpty()){
             
-        } else {
-            JOptionPane.showMessageDialog(this, "Não há produtos para buscar!");
+        
+            String categoria = categoriaBox.getSelectedItem().toString();
+// String categoria = String.valueOf(categoriaBox.getSelectedItem());
+            if (categoria.equals(categoriaBox.getSelectedItem().toString())) 
+            {
+                buscaProduto(categoria);
+             
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Produtos não selecionado!");
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Produtos não selecionado!");
         }
-                                                
 
 
-    }//GEN-LAST:event_btnAtualizarActionPerformed
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void categoriaBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoriaBoxActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_categoriaBoxActionPerformed
 
     /**
@@ -316,16 +332,17 @@ public final class ListaProdutoView extends javax.swing.JFrame {
     }
 
     public void buscaProduto(String categoria) {
-        ArrayList<String[]> linhasProdutos = ProdutoController.buscaProduto(categoria);
-
-        if (!linhasProdutos.isEmpty()) {
+        ArrayList<String[]> listaProdutos = ProdutoController.buscaProduto(categoria);
+         tblProduto.setVisible(true);
+        if (!listaProdutos.isEmpty()) {
 
             DefaultTableModel tmProduto = new DefaultTableModel();
             tmProduto.addColumn("ID");
             tmProduto.addColumn("Nome");
             tmProduto.addColumn("Estoque");
             tmProduto.addColumn("Valor");
-            for (String[] p : linhasProdutos) {
+             tmProduto.addColumn("Categoria");
+            for (String[] p : listaProdutos) {
                 tmProduto.addRow(p);
             }
 
@@ -334,17 +351,80 @@ public final class ListaProdutoView extends javax.swing.JFrame {
             tblProduto.getColumnModel().getColumn(1).setPreferredWidth(100);
             tblProduto.getColumnModel().getColumn(2).setPreferredWidth(100);
             tblProduto.getColumnModel().getColumn(3).setPreferredWidth(100);
-
+             tblProduto.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tblProduto.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Produto não encontrado!");
+            tblProduto.setVisible(false);
+    
+           JOptionPane.showMessageDialog(this, "Não há nenhum produto cadastrado na categoria: "+categoria+ "!");
         }
 
     }
+ public void buscaProduto(int id) {
+        ArrayList<String[]> listaProdutos = ProdutoController.buscaProduto(id);
 
+        if (!listaProdutos.isEmpty()) {
+
+            DefaultTableModel tmProduto = new DefaultTableModel();
+            tmProduto.addColumn("ID");
+            tmProduto.addColumn("Nome");
+            tmProduto.addColumn("Estoque");
+            tmProduto.addColumn("Valor");
+               tmProduto.addColumn("Categoria");
+            for (String[] p : listaProdutos) {
+                tmProduto.addRow(p);
+            }
+
+            tblProduto.setModel(tmProduto);
+            tblProduto.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblProduto.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tblProduto.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tblProduto.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tblProduto.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tblProduto.setVisible(true);
+        } else {
+            tblProduto.setVisible(false);
+            JOptionPane.showMessageDialog(this, "Produto selecionado!");
+        }
+
+    
+
+    }
+    public Object[] selecionaProduto(){
+         DefaultTableModel model = (DefaultTableModel) tblProduto.getModel();
+         int nRow = model.getRowCount();
+          Object [] dadosTabela = new Object[nRow];
+          for (int i =0; i< nRow; i++){
+                 dadosTabela [i] = tblProduto.getSelectedRow();
+                  
+             
+          }
+        return dadosTabela;
+    }
+    public int selId(){
+        int id = (Integer.parseInt((String) tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 0)));
+        return id;
+    }
+    public String selNome(){
+        String nome = (tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 1).toString());
+        return nome;
+    }
+    
+     
+    public String selEstoque(){
+        String estoque = (tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 2).toString());
+        return estoque;
+    }
+
+ 
+    public String selValor(){
+        String valor =  (tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 3).toString());
+        return valor;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAtualizar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSelecionar;
     private javax.swing.JComboBox<String> categoriaBox;
     private javax.swing.JLabel jLabel1;

@@ -12,7 +12,6 @@ import projetoPI.model.Produto;
 
 /**
  *
- * @author fernando.fernandes
  * Padrão Singleton
  */
 public class SimulaDB {
@@ -54,30 +53,20 @@ public class SimulaDB {
         for(Cliente item: listaClientes)
         {
             if(item.getId() == p.getId())
-            {
+            {   
                 item.setNome(p.getNome());
-                item.setCPF(p.getCPF());
-                item.setAnoFormado(p.getAnoFormado());
+                item.setCpf(p.getCpf());
                 item.setBairro(p.getBairro());
-                item.setCelular(p.getCelular());
                 item.setCelular1(p.getCelular1());
                 item.setCep(p.getCep());
                 item.setCidade(p.getCidade());
                 item.setComplemento(p.getComplemento());
-                item.setCustoMensal(p.getCustoMensal());
                 item.setEmail(p.getEmail());
                 item.setEndereco(p.getEndereco());
-                item.setEscolaridade(p.getEscolaridade());
                 item.setEstCivil(p.getEstCivil());
                 item.setNumero(p.getNumero());
-                item.setProfissao(p.getProfissao());
-                item.setRef(p.getRef());
-                item.setRenda(p.getRenda());
-                item.setRendaF(p.getRendaF());
-                item.setRg(p.getRg());
                 item.setSexo(p.getSexo());
                 item.setTelefone(p.getTelefone());
-                item.setTempoEmpre(p.getTempoEmpre());
                 item.setUf(p.getUf());
                 item.setdNascimento(p.getdNascimento());
                 
@@ -125,17 +114,12 @@ public class SimulaDB {
             {
                 item.setNome(p.getNome());
                 item.setCategoria(p.getCategoria());
-
                 item.setDescricao(p.getDescricao());
-
                 item.setEstoque(p.getEstoque());
                 item.setLinha(p.getLinha());
                 item.setMarca(p.getMarca());
-
                 item.setRef(p.getRef());
-
                 item.setUnidadeM(p.getUnidadeM());
- 
                 item.setValorVenda(p.getValorVenda());
             }
         }
@@ -160,29 +144,29 @@ public class SimulaDB {
         
         return true;
     }
-     public ArrayList<Produto> buscaProduto(String categoria) {
+ //    public ArrayList<Produto> buscaProduto(String categoria) {
+ //       ArrayList<Produto> resultado = new ArrayList<>();
+//
+ //       for (Produto c : listaProdutos) {
+ //           if (c.getCategoria().equals(categoria)) {
+ //               resultado.add(c);
+ //           }
+ //       }
+
+  //      return resultado;
+  //  }
+
+    public ArrayList<Produto> buscaProduto(int id) {
         ArrayList<Produto> resultado = new ArrayList<>();
 
         for (Produto c : listaProdutos) {
-            if (c.getCategoria().equals(categoria)) {
+            if (c.getId() == (id)) {
                 resultado.add(c);
             }
         }
 
         return resultado;
     }
-
-    /*public ArrayList<Produto> buscaProduto(String nome) {
-        ArrayList<Produto> resultado = new ArrayList<>();
-
-        for (Produto p : listaProdutos) {
-            if (p.getNome().contains(nome)) {
-                resultado.add(p);
-            }
-        }
-
-        return resultado;
-    }*/
 
     public ArrayList<Cliente> buscaCliente(int id) {
         ArrayList<Cliente> resultado = new ArrayList<>();
@@ -208,53 +192,6 @@ public class SimulaDB {
         return resultado;
     }
 
-    public ArrayList<Cliente> buscaCliente(long Cpf) {
-        ArrayList<Cliente> resultado = new ArrayList<>();
-
-        String cpf = String.valueOf(Cpf);
-
-        for (Cliente c : listaClientes) {
-            if (c.getCpf().equals(cpf)) {
-                resultado.add(c);
-            }
-        }
-
-        return resultado;
-    }
-
-    /*public ArrayList<VendaModel> buscaVenda(int id) {
-        ArrayList<VendaModel> resultado = new ArrayList<>();
-
-        for (VendaModel v : listaVendas) {
-            if (v.getIdVenda() == id) {
-                resultado.add(v);
-            }
-        }
-
-        return resultado;
-    }
-
-    public ArrayList<VendaModel> buscaVenda(String cpf) {
-        ArrayList<VendaModel> resultado = new ArrayList<>();
-
-        for (VendaModel v : listaVendas) {
-            if (v.getCpfCliente().equals(cpf)) {
-                resultado.add(v);
-            }
-        }
-
-        return resultado;
-    }
-
-    public ArrayList<VendaModel> buscaVenda(String dataInicio, String dataFim) {
-        ArrayList<VendaModel> resultado = new ArrayList<>();
-
-        for (VendaModel v : listaVendas) {
-            if (Utilidades.buscaPeriodo(v.getData(), dataInicio, dataFim)) {
-                resultado.add(v);
-            }
-        }
-        return resultado;
-    }*/
+  
     
 }

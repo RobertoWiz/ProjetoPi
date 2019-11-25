@@ -6,17 +6,22 @@
 package projetoPI.view;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import projetoPI.controller.ClienteController;
-import projetoPI.controller.ProdutoController;
+
 
 
 public class ListaClienteView extends javax.swing.JFrame {
-
+    
+    public CadastroVendaView telaVenda2 = new CadastroVendaView();
+   //  public ClienteProdutoView telaVenda3 = new ClienteProdutoView();
+    
     public ListaClienteView() {
         initComponents();
+        
         this.setLocationRelativeTo(null);
-        LoadTable();
+        //LoadTable();
     }
 public void LoadTable(){
     ArrayList<String[]> listaClientes = ClienteController.getClientes();
@@ -38,8 +43,11 @@ public void LoadTable(){
 //        tblClientes.getColumnModel().getColumn(0).setPreferredWidth(50); //ID
         tblCliente.getColumnModel().getColumn(0).setPreferredWidth(300);
         tblCliente.getColumnModel().getColumn(1).setPreferredWidth(100);
+        tblCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
     
 }
+
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,8 +63,11 @@ public void LoadTable(){
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCliente = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnPesquisar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        txtNomecli = new javax.swing.JTextField();
+        btnSelecionar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Compra Personalizada");
@@ -114,6 +125,16 @@ public void LoadTable(){
         jLabel2.setFont(new java.awt.Font("Tw Cen MT", 1, 36)); // NOI18N
         jLabel2.setText("Selecione o Cliente");
 
+        btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/blue-search-icon.png"))); // NOI18N
+        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Digite o nome ou documento do cliente ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -125,36 +146,54 @@ public void LoadTable(){
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)))
-                .addContainerGap(298, Short.MAX_VALUE))
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(txtNomecli, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnPesquisar)))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(26, 26, 26))
                     .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNomecli, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(53, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel1);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/green-ok-icon.png"))); // NOI18N
-        jButton1.setText("Selecionar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSelecionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/green-ok-icon.png"))); // NOI18N
+        btnSelecionar.setText("Selecionar");
+        btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSelecionarActionPerformed(evt);
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/red-cross-icon (1).png"))); // NOI18N
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/red-cross-icon (1).png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -163,40 +202,74 @@ public void LoadTable(){
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(68, 68, 68)
+                .addComponent(btnSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(90, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSelecionar)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
+        
+     if(tblCliente.getRowCount() > 0){
+         int id = tblCliente.getSelectedRow();
+         buscaCliente(id);
+         selecionaCliente();
+         selId();
+         selNome();
+         //Passar os dados para a tela de venda
+         //this.telaVenda2.definirCodigoCliente(selId());
+         this.telaVenda2.definirNomeCli(selNome());
+          this.telaVenda2.definirCpf(selCpf());
+       
+         
+     }
+     this.dispose();
+    }//GEN-LAST:event_btnSelecionarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        // TODO add your handling code here:
+                if(!ClienteController.getClientes().isEmpty()){
+            
+        
+            String nome2 = this.txtNomecli.getText();
+// String categoria = String.valueOf(categoriaBox.getSelectedItem());
+            if (nome2.equals(txtNomecli.getText() ))
+            {
+                buscaCliente(nome2);
+             
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Cliente não selecionado!");
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "Cliente  não selecionado!");
+        }
+
+
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,15 +312,97 @@ public void LoadTable(){
             }
         });
     }
+  
+ public void buscaCliente(String nome2) {
+        ArrayList<String[]> listaClientes = ClienteController.buscaCliente(nome2);
+
+        if (!listaClientes.isEmpty()) {
+
+            DefaultTableModel tmCliente = new DefaultTableModel();
+            tmCliente.addColumn("ID");
+            tmCliente.addColumn("Nome");
+            tmCliente.addColumn("CPF");
+            for (String[] p : listaClientes) {
+                tmCliente.addRow(p);
+            }
+
+            tblCliente.setModel(tmCliente);
+            tblCliente.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblCliente.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tblCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tblCliente.setVisible(true);
+        } else {
+            tblCliente.setVisible(false);
+            JOptionPane.showMessageDialog(this, "Cliente não encontrado!");
+        }
+ }
+     public void buscaCliente(int id) {
+        ArrayList<String[]> listaClientes = ClienteController.buscaCliente(id);
+
+        if (!listaClientes.isEmpty()) {
+
+            DefaultTableModel tmCliente = new DefaultTableModel();
+             tmCliente.addColumn("id");
+            tmCliente.addColumn("Nome");
+            tmCliente.addColumn("CPF");
+            for (String[] p : listaClientes) {
+                tmCliente.addRow(p);
+            }
+
+           tblCliente.setModel(tmCliente);
+            tblCliente.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblCliente.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tblCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tblCliente.setVisible(true);
+        } else {
+            tblCliente.setVisible(false);
+            JOptionPane.showMessageDialog(this, "Cliente selecionado!");
+        }
+
+    }
+    public Object[] selecionaCliente(){
+         DefaultTableModel model = (DefaultTableModel) tblCliente.getModel();
+         int nRow = model.getRowCount();
+          Object [] dadosTabela = new Object[nRow];
+          for (int i =0; i< nRow; i++){
+                 dadosTabela [i] = tblCliente.getSelectedRow();
+                  
+             
+          }
+        return dadosTabela;
+    }
+
+    
+
+   public int selId(){
+        int id = (Integer.parseInt((String) tblCliente.getModel().getValueAt(tblCliente.getSelectedRow(), 0)));
+        return id;
+    }
+    public String selNome(){
+        String nome = (tblCliente.getModel().getValueAt(tblCliente.getSelectedRow(), 1).toString());
+        return nome;
+    }
+    
+     
+    public String selCpf(){
+        String cpf = (tblCliente.getModel().getValueAt(tblCliente.getSelectedRow(), 2).toString());
+        return cpf;
+    }
+    
+            
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnPesquisar;
+    private javax.swing.JButton btnSelecionar;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblCliente;
+    private javax.swing.JTextField txtNomecli;
     // End of variables declaration//GEN-END:variables
 }

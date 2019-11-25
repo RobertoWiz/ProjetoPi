@@ -5,14 +5,68 @@
  */
 package projetoPI.view;
 
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import projetoPI.controller.AnaliticoController;
+
+
 
 public class AnaliticoVendaView extends javax.swing.JFrame {
+
+    private String numpedido;
 
     public AnaliticoVendaView() {
         initComponents();
         //this.setLocationRelativeTo(null);
     }
 
+    public void LoadTable199(String numpedido) {
+        ArrayList<String[]> listaAnaliticos = AnaliticoController.buscaAnalitico(numpedido);
+
+        DefaultTableModel tmAnalitico = new DefaultTableModel();
+        tmAnalitico.addColumn("ID");
+        tmAnalitico.addColumn("Pedido"); //2
+        tmAnalitico.addColumn("Data");
+        tmAnalitico.addColumn("Cpf");
+        tmAnalitico.addColumn("NomeProd"); //2
+        
+        tmAnalitico.addColumn("Qtd Itens");
+        tmAnalitico.addColumn("Valor");
+        tmAnalitico.addColumn("ValorTotal");
+        tmAnalitico.addColumn("FormaPagl"); //2
+        
+        
+
+        tblAnalitico.setModel(tmAnalitico);
+
+           tblAnalitico.removeColumn(tblAnalitico.getColumnModel().getColumn(0));
+      //  tblRelatorio.removeColumn(tblRelatorio.getColumnModel().getColumn(5));
+        
+        for (String[] c : listaAnaliticos) {
+            tmAnalitico.addRow(c);
+        }
+
+        //Defino o tamanho para cada coluna
+        // tmProduto.getColumnModel().getColumn(0).setPreferredWidth(50); //ID
+        tblAnalitico.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tblAnalitico.getColumnModel().getColumn(1).setPreferredWidth(30);
+        tblAnalitico.getColumnModel().getColumn(2).setPreferredWidth(30);
+        tblAnalitico.getColumnModel().getColumn(3).setPreferredWidth(30);
+        tblAnalitico.getColumnModel().getColumn(4).setPreferredWidth(30);
+        tblAnalitico.getColumnModel().getColumn(5).setPreferredWidth(30);
+        tblAnalitico.getColumnModel().getColumn(6).setPreferredWidth(30);
+        tblAnalitico.getColumnModel().getColumn(7).setPreferredWidth(30);
+       // tblAnalitico.getColumnModel().getColumn(8).setPreferredWidth(30);      
+        
+    }
+    
+      public String  NumeroPedido() {
+       String  numpedido = txtNumpedido.getText();
+       ////String datafim = txtdatafim.getCalendar().toString();
+       return numpedido;
+        }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,9 +80,12 @@ public class AnaliticoVendaView extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblAnalitico = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
+        btnPesquisarA = new javax.swing.JButton();
+        txtNumpedido = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Compra Personalizada");
@@ -36,7 +93,7 @@ public class AnaliticoVendaView extends javax.swing.JFrame {
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/blue-chart-icon.png"))); // NOI18N
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblAnalitico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -91,32 +148,59 @@ public class AnaliticoVendaView extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable2);
+        jScrollPane1.setViewportView(tblAnalitico);
 
         jLabel2.setFont(new java.awt.Font("Tw Cen MT", 1, 36)); // NOI18N
         jLabel2.setText("Relatório de Vendas Analítico");
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/red-cross-icon (1).png"))); // NOI18N
         btnCancelar.setText("Fechar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        btnPesquisarA.setFont(new java.awt.Font("Agency FB", 0, 24)); // NOI18N
+        btnPesquisarA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/yellow-search-icon_1.png"))); // NOI18N
+        btnPesquisarA.setText("Pesquisar");
+        btnPesquisarA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarAActionPerformed(evt);
+            }
+        });
+
+        txtNumpedido.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
+        jLabel1.setText("Digite o número do Pedido");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addGap(0, 301, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel2))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(248, 248, 248)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(248, 248, 248)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(240, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(txtNumpedido, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79)
+                .addComponent(btnPesquisarA, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,8 +209,13 @@ public class AnaliticoVendaView extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNumpedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnPesquisarA))
+                .addGap(48, 48, 48)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -148,11 +237,25 @@ public class AnaliticoVendaView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPesquisarAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarAActionPerformed
+      NumeroPedido();
+   String numpedido = txtNumpedido.getText();
+   // DataPesquisa2();
+   AnaliticoController.buscaAnalitico(numpedido);
+   this.LoadTable199(numpedido);
+  // Total();
+   ///txtTotalGeral.setText("rw");
+    }//GEN-LAST:event_btnPesquisarAActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -194,11 +297,14 @@ public class AnaliticoVendaView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnPesquisarA;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tblAnalitico;
+    private javax.swing.JFormattedTextField txtNumpedido;
     // End of variables declaration//GEN-END:variables
 }

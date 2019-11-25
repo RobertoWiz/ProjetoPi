@@ -5,8 +5,9 @@
  */
 package projetoPI.view;
 
-
-
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import projetoPI.controller.ProdutoController;
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,155 +15,124 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 //import projetoPI.view.ListaProdutoView;
 
-
 public final class CadastroProdutoView extends javax.swing.JFrame {
-    ListaProdutoView produto = new ListaProdutoView ();
-   // ListaProdutoView tblProduto = new ListaProdutoView();
+
+    ListaProdutoView produto = new ListaProdutoView();
+    // ListaProdutoView tblProduto = new ListaProdutoView();
     private String modoTela;
-    
-   ;
-    
+
     public CadastroProdutoView() {
         initComponents();
-       // tblProduto.setVisible(false);
         LoadTable();
+
         this.setLocationRelativeTo(null);
         DesabilitarFormulario();
         btnSalvarProduto.setEnabled(false);
         btnCancelarProduto.setEnabled(false);
-        
+        btnExcluirProduto.setEnabled(true);
+        btnEditarProduto.setEnabled(true);
         //Oculto O ID
-     //  lblIDProduto.setVisible(false);
+        lblIDProduto.setVisible(false);
+        txtadd.setVisible(false);
     }
-    
-   public void LoadTable(){
-    ArrayList<String[]> listaProdutos = ProdutoController.getProdutos();
-    
-    DefaultTableModel tmProduto = new DefaultTableModel();
-    
-          tmProduto.addColumn("SEQ");
-          tmProduto.addColumn("PRODUTO");
-          tmProduto.addColumn("DESCRICAO"); //2
-          tmProduto.addColumn("CATEGORIA");
- 
-          tmProduto.addColumn("VALOR");
 
-          tmProduto.addColumn("MARCA");
-          tmProduto.addColumn("LINHA");
-   
-           tmProduto.addColumn("ESTOQUE");
-           tmProduto.addColumn("OBS");
-           tmProduto.addColumn("UNIDADE");
+    public void LoadTable() {
+        ArrayList<String[]> listaProdutos = ProdutoController.getProdutos();
 
-          tblProduto.setModel(tmProduto);
-          
-            //Removo a coluna da View (JTable) mas mantenho na model para armazenar o ID
-       
-        
-        tblProduto.removeColumn(tblProduto.getColumnModel().getColumn(17));
-       // tblProduto.removeColumn(tblProduto.getColumnModel().getColumn(18));
-      // tblProduto.removeColumn(tblProduto.getColumnModel().getColumn(19));
- 
-    //Opção 2 - Descomentar linhas abaixo caso queira reutilizar o modelo padrão
+        DefaultTableModel tmProduto = new DefaultTableModel();
+
+        tmProduto.addColumn("COD");
+        tmProduto.addColumn("PRODUTO");
+        tmProduto.addColumn("DESCRICAO"); //2
+        tmProduto.addColumn("CATEGORIA");
+        tmProduto.addColumn("VALOR");
+        tmProduto.addColumn("MARCA");
+        tmProduto.addColumn("LINHA");
+        tmProduto.addColumn("ESTOQUE");
+        tmProduto.addColumn("OBS");
+        tmProduto.addColumn("UNIDADE");
+
+        tblProduto.setModel(tmProduto);
+
+        //Removo a coluna da View (JTable) mas mantenho na model para armazenar o ID
+        tblProduto.removeColumn(tblProduto.getColumnModel().getColumn(8));
+        // tblProduto.removeColumn(tblProduto.getColumnModel().getColumn(18));
+        // tblProduto.removeColumn(tblProduto.getColumnModel().getColumn(19));
+
+        //Opção 2 - Descomentar linhas abaixo caso queira reutilizar o modelo padrão
         //Resgato o modelo da tabela
-       // DefaultTableModel tmProduto = (DefaultTableModel) this.txtIdProduto.getModel();
+        // DefaultTableModel tmProduto = (DefaultTableModel) this.txtIdProduto.getModel();
         ////Limpo a tabela, excluindo todas as linhas
         //tmClientes.setRowCount(0);
-    
-    for(String[] c : listaProdutos)
-        {
+        for (String[] c : listaProdutos) {
             tmProduto.addRow(c);
         }
-        
-        //Defino o tamanho para cada coluna
-    // tmProduto.getColumnModel().getColumn(0).setPreferredWidth(50); //ID
-      tblProduto.getColumnModel().getColumn(0).setPreferredWidth(5);
-      tblProduto.getColumnModel().getColumn(1).setPreferredWidth(100);
-      tblProduto.getColumnModel().getColumn(2).setPreferredWidth(100);
-      tblProduto.getColumnModel().getColumn(3).setPreferredWidth(100);
-      tblProduto.getColumnModel().getColumn(4).setPreferredWidth(100);
-      tblProduto.getColumnModel().getColumn(5).setPreferredWidth(100);
-      tblProduto.getColumnModel().getColumn(6).setPreferredWidth(100);
-      tblProduto.getColumnModel().getColumn(7).setPreferredWidth(100);
-      tblProduto.getColumnModel().getColumn(8).setPreferredWidth(100);
- 
-     // tblProduto.getColumnModel().getColumn(15).setPreferredWidth(100);
-     // tblProduto.getColumnModel().getColumn(16).setPreferredWidth(100);
-     // tblProduto.getColumnModel().getColumn(17).setPreferredWidth(100);
-     // tblProduto.getColumnModel().getColumn(18).setPreferredWidth(100);
-    //  tblProduto.getColumnModel().getColumn(19).setPreferredWidth(100);
-     // tblProduto.getColumnModel().getColumn(20).setPreferredWidth(100);
-     // tblProduto.getColumnModel().getColumn(21).setPreferredWidth(100);
-     // tblProduto.getColumnModel().getColumn(22).setPreferredWidth(100);
-     // tblProduto.getColumnModel().getColumn(23).setPreferredWidth(100);   
-     // tblProduto.getColumnModel().getColumn(24).setPreferredWidth(100);
-      //tblProduto.getColumnModel().getColumn(25).setPreferredWidth(100);  
 
-    
-}
-    
-    public void LimparFormulario()
-    {
-txtIdProduto.setText("");
-txtNomeProduto.setText("");
-txtDescricaoProduto.setText("");
+        //Defino o tamanho para cada coluna
+        tblProduto.getColumnModel().getColumn(0).setPreferredWidth(30);
+        tblProduto.getColumnModel().getColumn(1).setPreferredWidth(100);
+        tblProduto.getColumnModel().getColumn(2).setPreferredWidth(100);
+        tblProduto.getColumnModel().getColumn(3).setPreferredWidth(100);
+        tblProduto.getColumnModel().getColumn(4).setPreferredWidth(100);
+        tblProduto.getColumnModel().getColumn(5).setPreferredWidth(100);
+        tblProduto.getColumnModel().getColumn(6).setPreferredWidth(100);
+        tblProduto.getColumnModel().getColumn(7).setPreferredWidth(100);
+      
+    }
+
+    public void LimparFormulario() {
+        txtIdProduto.setText("");
+        txtNomeProduto.setText("");
+        txtDescricaoProduto.setText("");
 //txtCategoriaProduto.setText("Sofa");
 //txtSubcategoriaProduto.setText("");
-txtValorvendaProduto.setText("");
+        txtValorvendaProduto.setText("");
 
 //txtGarantiaProduto.setText("");
-txtMarcaProduto.setText("");
-txtLinhaProduto.setText("");
+        txtMarcaProduto.setText("");
+        txtLinhaProduto.setText("");
 
 //txtUffornProduto.setText("AC");
-
-txtEstoqueProduto.setText("");
+        txtEstoqueProduto.setText("");
 //txtUnidademProduto.setText("");
-txtRefProduto.setText("");
+        txtRefProduto.setText("");
 
-        
     }
-    
-    
-       public void DesabilitarFormulario()
-    {
-txtIdProduto.setEnabled(false);
-txtNomeProduto.setEnabled(false);
-txtDescricaoProduto.setEnabled(false);
-txtCategoriaProduto.setEnabled(false);
 
-txtValorvendaProduto.setEnabled(false);
+    public void DesabilitarFormulario() {
+        txtIdProduto.setEnabled(false);
+        txtNomeProduto.setEnabled(false);
+        txtDescricaoProduto.setEnabled(false);
+        txtCategoriaProduto.setEnabled(false);
 
-txtMarcaProduto.setEnabled(false);
-txtLinhaProduto.setEnabled(false);
+        txtValorvendaProduto.setEnabled(false);
 
-txtEstoqueProduto.setEnabled(false);
-txtUnidademProduto.setEnabled(false);
-txtRefProduto.setEnabled(false);
+        txtMarcaProduto.setEnabled(false);
+        txtLinhaProduto.setEnabled(false);
 
+        txtEstoqueProduto.setEnabled(false);
+        txtUnidademProduto.setEnabled(false);
+        txtRefProduto.setEnabled(false);
 
-    } 
-    
-    
-    
-        public void HabilitarFormulario()
-    {
+    }
+
+    public void HabilitarFormulario() {
         txtIdProduto.setEnabled(true);
-txtDescricaoProduto.setEnabled(true);
-txtNomeProduto.setEnabled(true);
-txtCategoriaProduto.setEnabled(true);
+        txtDescricaoProduto.setEnabled(true);
+        txtNomeProduto.setEnabled(true);
+        txtCategoriaProduto.setEnabled(true);
 
-txtValorvendaProduto.setEnabled(true);
+        txtValorvendaProduto.setEnabled(true);
 
-txtMarcaProduto.setEnabled(true);
-txtLinhaProduto.setEnabled(true);
+        txtMarcaProduto.setEnabled(true);
+        txtLinhaProduto.setEnabled(true);
 
-txtEstoqueProduto.setEnabled(true);
-txtUnidademProduto.setEnabled(true);
-txtRefProduto.setEnabled(true);
+        txtEstoqueProduto.setEnabled(true);
+        txtUnidademProduto.setEnabled(true);
+        txtRefProduto.setEnabled(true);
 
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -197,10 +167,11 @@ txtRefProduto.setEnabled(true);
         pnlHD3 = new javax.swing.JPanel();
         txtEstoqueProduto = new javax.swing.JFormattedTextField();
         jLabel13 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
+        txtatual = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         txtUnidademProduto = new javax.swing.JComboBox<>();
         txtRefProduto = new javax.swing.JTextField();
+        txtadd = new javax.swing.JLabel();
         btnCancelarProduto = new javax.swing.JButton();
         btnAdicionarProduto = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -209,15 +180,20 @@ txtRefProduto.setEnabled(true);
         jLabel14 = new javax.swing.JLabel();
         btnConsultarProduto = new javax.swing.JButton();
         btnEditarProduto = new javax.swing.JButton();
+        lblIDProduto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Compra Personalizada");
+        setPreferredSize(new java.awt.Dimension(960, 754));
         setResizable(false);
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(977, 994));
+        jPanel1.setRequestFocusEnabled(false);
 
         pnlComputador.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informações do Produto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Agency FB", 1, 24))); // NOI18N
         pnlComputador.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jLabel4.setText("Código*");
+        jLabel4.setText("Código Controle");
 
         txtIdProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,22 +206,22 @@ txtRefProduto.setEnabled(true);
 
         jLabel8.setText("Categoria*");
 
-        txtCategoriaProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Móveis\t", "Utensilios Domesticos", "Cama, Mesa e Banho" }));
+        txtCategoriaProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cama, Mesa e Banho", "Utensílios Doméstios ", "Decoração", "Iluminação", "Móveis" }));
         txtCategoriaProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCategoriaProdutoActionPerformed(evt);
             }
         });
 
-        jLabel16.setText("Valor Venda (R$)");
+        jLabel16.setText("Valor Venda (R$)*");
 
-        jLabel1.setText("Linha*");
+        jLabel1.setText("Linha");
 
         jLabel9.setText("Nome do Produto*");
 
-        jLabel11.setText("Marca*");
+        jLabel11.setText("Marca");
 
-        txtValorvendaProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.##"))));
+        txtValorvendaProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
 
         javax.swing.GroupLayout pnlComputadorLayout = new javax.swing.GroupLayout(pnlComputador);
         pnlComputador.setLayout(pnlComputadorLayout);
@@ -262,28 +238,28 @@ txtRefProduto.setEnabled(true);
                         .addGap(18, 18, 18)
                         .addGroup(pnlComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(pnlComputadorLayout.createSequentialGroup()
+                                .addComponent(txtCategoriaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel11)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtMarcaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtLinhaProduto))
+                            .addGroup(pnlComputadorLayout.createSequentialGroup()
                                 .addComponent(txtIdProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(33, 33, 33)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtNomeProduto))
-                            .addComponent(txtDescricaoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlComputadorLayout.createSequentialGroup()
-                                .addComponent(txtCategoriaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel11)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtMarcaProduto)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtLinhaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtDescricaoProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlComputadorLayout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jLabel16)
                         .addGap(18, 18, 18)
                         .addComponent(txtValorvendaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         pnlComputadorLayout.setVerticalGroup(
             pnlComputadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,6 +307,7 @@ txtRefProduto.setEnabled(true);
 
         pnlHD3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Informações de Estoque", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Agency FB", 1, 24))); // NOI18N
 
+        txtEstoqueProduto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         txtEstoqueProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEstoqueProdutoActionPerformed(evt);
@@ -339,26 +316,33 @@ txtRefProduto.setEnabled(true);
 
         jLabel13.setText("Referencias/Obs.:");
 
-        jLabel23.setText("Estoque*");
+        txtatual.setText("Estoque");
 
-        jLabel31.setText("Unidade de Medida");
+        jLabel31.setText("Unidade de Medida*");
 
-        txtUnidademProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Litros", "Unidades", "Metros" }));
+        txtUnidademProduto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Unidades", "Litros", "Metros" }));
         txtUnidademProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUnidademProdutoActionPerformed(evt);
             }
         });
 
+        txtadd.setText("Alterar");
+
         javax.swing.GroupLayout pnlHD3Layout = new javax.swing.GroupLayout(pnlHD3);
         pnlHD3.setLayout(pnlHD3Layout);
         pnlHD3Layout.setHorizontalGroup(
             pnlHD3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlHD3Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(pnlHD3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel23))
+                .addGroup(pnlHD3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHD3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtadd)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtatual))
+                    .addGroup(pnlHD3Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel13)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlHD3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlHD3Layout.createSequentialGroup()
@@ -367,19 +351,20 @@ txtRefProduto.setEnabled(true);
                         .addComponent(jLabel31)
                         .addGap(18, 18, 18)
                         .addComponent(txtUnidademProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtRefProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 713, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(75, Short.MAX_VALUE))
+                    .addComponent(txtRefProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         pnlHD3Layout.setVerticalGroup(
             pnlHD3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlHD3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlHD3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel23)
+                    .addComponent(txtatual)
                     .addComponent(txtEstoqueProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel31)
-                    .addComponent(txtUnidademProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(txtUnidademProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtadd))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlHD3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(txtRefProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -435,6 +420,8 @@ txtRefProduto.setEnabled(true);
             }
         });
 
+        lblIDProduto.setText("lblID");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -443,28 +430,34 @@ txtRefProduto.setEnabled(true);
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(pnlHD3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pnlComputador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(124, 124, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2))
-                    .addComponent(pnlComputador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblIDProduto)
+                        .addGap(161, 161, 161))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(136, 136, 136)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(177, 177, 177)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnConsultarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAdicionarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEditarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnExcluirProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnSalvarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCancelarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 958, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlHD3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, Short.MAX_VALUE))
+                        .addComponent(btnConsultarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAdicionarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnExcluirProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnSalvarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancelarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -472,24 +465,25 @@ txtRefProduto.setEnabled(true);
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
-                    .addComponent(jLabel2))
-                .addGap(20, 20, 20)
+                    .addComponent(jLabel2)
+                    .addComponent(lblIDProduto))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlComputador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlHD3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 23, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(btnAdicionarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExcluirProduto)
                     .addComponent(btnEditarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnExcluirProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAdicionarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnConsultarProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSalvarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelarProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(351, 351, 351))
         );
 
         pnlComputador.getAccessibleContext().setAccessibleName("Selecione o cliente");
@@ -503,18 +497,68 @@ txtRefProduto.setEnabled(true);
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 918, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnEditarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProdutoActionPerformed
+        //Verifico se há linhas para poder editar
+ 
+        if (tblProduto.getRowCount() > 0) {
+            //Verifico se o usuário selecionou alguma linha (Primeira linha = 0)
+            if (tblProduto.getSelectedRow() >= 0) {
+                HabilitarFormulario();
+                Random gerador = new Random();
+                txtIdProduto.setText(Integer.toString(gerador.nextInt(60000)));
+                btnAdicionarProduto.setEnabled(false);
+                btnExcluirProduto.setEnabled(false);
+                btnEditarProduto.setEnabled(false);
+                btnConsultarProduto.setEnabled(false);
+                btnSalvarProduto.setEnabled(true);
+                btnCancelarProduto.setEnabled(true);
+                txtadd.setVisible(true);
+                //Variável acessória para identifcar se o formulário está em modo de edição ou alteração
+                modoTela = "Editar";
+
+                //Atribuo os valores que estão na linha selecionada para a tabela
+                lblIDProduto.setText(tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 0).toString());
+                txtNomeProduto.setText(tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 1).toString());
+                txtDescricaoProduto.setText(tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 2).toString());
+                txtCategoriaProduto.setSelectedItem(tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 3).toString());
+
+                txtValorvendaProduto.setText(tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 4).toString());
+                txtMarcaProduto.setText(tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 5).toString());
+                txtLinhaProduto.setText(tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 6).toString());
+
+                txtEstoqueProduto.setText(tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 7).toString());
+                txtUnidademProduto.setSelectedItem(tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 8).toString());
+                txtRefProduto.setText(tblProduto.getModel().getValueAt(tblProduto.getSelectedRow(), 9).toString());
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um Produto para editar para editar!");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Não há produtos para editar!");
+        }
+         txtadd.setVisible(false);
+
+    }//GEN-LAST:event_btnEditarProdutoActionPerformed
+
+    private void btnConsultarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarProdutoActionPerformed
+        // TODO add your handling code here:;
+        produto.setVisible(true);
+        // btnSalvarProduto.setEnabled(falaw);
+        // btnCancelarProduto.setEnabled(true);
+    }//GEN-LAST:event_btnConsultarProdutoActionPerformed
+
     private void btnAdicionarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarProdutoActionPerformed
-   
+
         modoTela = "Criar";
         HabilitarFormulario();
         LimparFormulario();
@@ -528,117 +572,117 @@ txtRefProduto.setEnabled(true);
         btnConsultarProduto.setEnabled(false);
     }//GEN-LAST:event_btnAdicionarProdutoActionPerformed
 
-    private void btnEditarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProdutoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditarProdutoActionPerformed
-
-    private void btnConsultarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarProdutoActionPerformed
-        // TODO add your handling code here:
-        produto.setVisible(true);
-    }//GEN-LAST:event_btnConsultarProdutoActionPerformed
-
-    private void btnExcluirProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirProdutoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnExcluirProdutoActionPerformed
-
-    private void txtEstoqueProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstoqueProdutoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEstoqueProdutoActionPerformed
-
-    private void txtCategoriaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaProdutoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCategoriaProdutoActionPerformed
+    private void btnCancelarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarProdutoActionPerformed
+        LimparFormulario();
+        DesabilitarFormulario() ;
+        btnAdicionarProduto.setEnabled(true);
+        btnExcluirProduto.setEnabled(true);
+        btnEditarProduto.setEnabled(true);
+        btnConsultarProduto.setEnabled(true);
+         btnSalvarProduto.setEnabled(false);
+        btnCancelarProduto.setEnabled(false);
+    }//GEN-LAST:event_btnCancelarProdutoActionPerformed
 
     private void txtUnidademProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUnidademProdutoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUnidademProdutoActionPerformed
 
+    private void txtEstoqueProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEstoqueProdutoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEstoqueProdutoActionPerformed
+
+    private void btnExcluirProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirProdutoActionPerformed
+        if (tblProduto.getRowCount() > 0) {
+            //Resgato o número da linha pelo JTable
+            int numeroLinha = tblProduto.getSelectedRow();
+
+            //Resgato o ID (oculto) do cliente pelo JTableModel
+            int IDproduto = Integer.parseInt(tblProduto.getModel().getValueAt(numeroLinha, 0).toString());
+
+            //Realizo a exclusão do cliente pelo ID
+            if (ProdutoController.excluir(IDproduto)) {
+                this.LoadTable();
+                JOptionPane.showMessageDialog(this, "Produto excluído da base de dados");
+            } else {
+                JOptionPane.showMessageDialog(this, "Falha ao excluir o Produto");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Não há Produto para Excluir!");
+        }
+    }//GEN-LAST:event_btnExcluirProdutoActionPerformed
+
     private void btnSalvarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarProdutoActionPerformed
-             
-        if(ValidarFormulario())
-        {
-            if(modoTela.equals("Criar"))
-            {
+
+        if (ValidarFormulario()) {
+            if (modoTela.equals("Criar")) {
                 //Passo ao controller a entrada do usuário e peço para salvar no banco de dados
-                if(ProdutoController.salvar(
-
-txtNomeProduto.getText(),
-txtDescricaoProduto.getText(),
-txtCategoriaProduto.getSelectedItem().toString(),
-
-txtValorvendaProduto.getText(),
-
-txtMarcaProduto.getText(),
-txtLinhaProduto.getText(),
-
-txtEstoqueProduto.getText(),
-txtUnidademProduto.getSelectedItem().toString(),
-txtRefProduto.getText()
-                ))
-                {
+                if (ProdutoController.salvar(txtNomeProduto.getText(),
+                        txtDescricaoProduto.getText(),
+                        txtCategoriaProduto.getSelectedItem().toString(),
+                        txtValorvendaProduto.getText(),
+                        txtMarcaProduto.getText(),
+                        txtLinhaProduto.getText(),
+                        Integer.parseInt(txtEstoqueProduto.getText()),
+                        txtUnidademProduto.getSelectedItem().toString(),
+                        txtRefProduto.getText()
+                )) {
                     //Recarrego a tabela com os dados resgatados do banco de dados
                     this.LoadTable();
-                    
-                    JOptionPane.showMessageDialog(null,"Produto cadastrado com sucesso!");
+
+                    JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
                     LimparFormulario();
-                }else{
-                    JOptionPane.showMessageDialog(null,"Falha ao cadastrar Produto!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Falha ao cadastrar Produto!");
                 }
 
-                 btnAdicionarProduto.setEnabled(true);
-        btnExcluirProduto.setEnabled(true);
-        btnEditarProduto.setEnabled(true);
-        btnConsultarProduto.setEnabled(true);
-                
-            }else
-            {
+                btnAdicionarProduto.setEnabled(true);
+                btnExcluirProduto.setEnabled(true);
+                btnEditarProduto.setEnabled(true);
+                btnConsultarProduto.setEnabled(true);
+                btnSalvarProduto.setEnabled(false);
+                btnCancelarProduto.setEnabled(false);
+
+            } else {
 
                 //Passo ao controller a entrada do usuário e peço para atualizar o banco de dados
-                if(ProdutoController.atualizar(
-Integer.parseInt(txtIdProduto.getText()), 
-txtNomeProduto.getText(),
-txtDescricaoProduto.getText(),
-txtCategoriaProduto.getSelectedItem().toString(),
-txtValorvendaProduto.getText(),
-
-txtMarcaProduto.getText(),
-txtLinhaProduto.getText(),
-
-txtEstoqueProduto.getText(),
-txtUnidademProduto.getSelectedItem().toString(),
-txtRefProduto.getText()      
-                ))
-                {
+                if (ProdutoController.atualizar(
+                        Integer.parseInt(lblIDProduto.getText()),
+                        txtNomeProduto.getText(),
+                        txtDescricaoProduto.getText(),
+                        txtCategoriaProduto.getSelectedItem().toString(),
+                        txtValorvendaProduto.getText(),
+                        txtMarcaProduto.getText(),
+                        txtLinhaProduto.getText(),
+                        Integer.parseInt(txtEstoqueProduto.getText()),
+                        txtUnidademProduto.getSelectedItem().toString(),
+                        txtRefProduto.getText()
+                )) {
                     //Recarrego a tabela com os dados resgatados do banco de dados
                     this.LoadTable();
-                    JOptionPane.showMessageDialog(this,"Carro atualizado com sucesso!");
-                }else{
-                    JOptionPane.showMessageDialog(this,"Falha ao atualizar Carro!");
+                    JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Falha ao atualizar Produto!");
                 }
 
             }
 
             LimparFormulario();
             DesabilitarFormulario();
-        btnAdicionarProduto.setEnabled(true);
-        btnExcluirProduto.setEnabled(true);
-        btnEditarProduto.setEnabled(true);
-        btnConsultarProduto.setEnabled(true);
-        
+            btnAdicionarProduto.setEnabled(true);
+            btnExcluirProduto.setEnabled(true);
+            btnEditarProduto.setEnabled(true);
+            btnConsultarProduto.setEnabled(true);
+            btnSalvarProduto.setEnabled(false);
+            btnCancelarProduto.setEnabled(false);
         }
     }//GEN-LAST:event_btnSalvarProdutoActionPerformed
 
-    private void btnCancelarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarProdutoActionPerformed
-     LimparFormulario();
-      btnAdicionarProduto.setEnabled(true);
-        btnExcluirProduto.setEnabled(true);
-        btnEditarProduto.setEnabled(true);
-        btnConsultarProduto.setEnabled(true);
-        
-    }//GEN-LAST:event_btnCancelarProdutoActionPerformed
+    private void txtCategoriaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoriaProdutoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCategoriaProdutoActionPerformed
 
     private void txtIdProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdProdutoActionPerformed
-              // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_txtIdProdutoActionPerformed
 
     /**
@@ -671,11 +715,56 @@ txtRefProduto.getText()
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+            public void run() { 
                 new CadastroProdutoView().setVisible(true);
             }
         });
     }
+
+    public void recebendo(Object [] dadosProduto) {
+txtIdProduto.setText((String) dadosProduto[0]);
+txtNomeProduto.setText((String) dadosProduto[1]);
+    }
+
+    public void buscaProduto(int id) {
+        ArrayList<String[]> listaProdutos = ProdutoController.buscaProduto(id);
+
+        if (!listaProdutos.isEmpty()) {
+
+            DefaultTableModel tmProduto = new DefaultTableModel();
+
+            tmProduto.addColumn("COD");
+            tmProduto.addColumn("PRODUTO");
+            tmProduto.addColumn("DESCRICAO"); //2
+            tmProduto.addColumn("CATEGORIA");
+
+            tmProduto.addColumn("VALOR");
+            tmProduto.addColumn("MARCA");
+            tmProduto.addColumn("LINHA");
+
+            tmProduto.addColumn("ESTOQUE");
+            tmProduto.addColumn("OBS");
+            tmProduto.addColumn("UNIDADE");
+
+            for (String[] p : listaProdutos) {
+                tmProduto.addRow(p);
+            }
+
+            tblProduto.setModel(tmProduto);
+            tblProduto.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tblProduto.getColumnModel().getColumn(1).setPreferredWidth(100);
+            tblProduto.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tblProduto.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tblProduto.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tblProduto.getColumnModel().getColumn(5).setPreferredWidth(100);
+            tblProduto.getColumnModel().getColumn(6).setPreferredWidth(100);
+            tblProduto.getColumnModel().getColumn(7).setPreferredWidth(100);
+        } else {
+            JOptionPane.showMessageDialog(this, "Produto não encontrado!");
+        }
+
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionarProduto;
@@ -690,7 +779,6 @@ txtRefProduto.getText()
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -702,6 +790,7 @@ txtRefProduto.getText()
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JLabel lblIDProduto;
     private javax.swing.JPanel pnlComputador;
     private javax.swing.JPanel pnlHD3;
     private javax.swing.JTable tblProduto;
@@ -715,30 +804,44 @@ txtRefProduto.getText()
     private javax.swing.JTextField txtRefProduto;
     private javax.swing.JComboBox<String> txtUnidademProduto;
     private javax.swing.JFormattedTextField txtValorvendaProduto;
+    private javax.swing.JLabel txtadd;
+    private javax.swing.JLabel txtatual;
     // End of variables declaration//GEN-END:variables
 
-private boolean ValidarFormulario() {
-        
-        if(this.txtNomeProduto.getText().equalsIgnoreCase(""))
-        {
-            JOptionPane.showMessageDialog(this,"Defina um nome para o Modelo!");
+    private boolean ValidarFormulario() {
+
+        if (this.txtNomeProduto.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Defina um nome para o PRODUTO!");
             return false;
         }
-        
-        if(this.txtDescricaoProduto.getText().equalsIgnoreCase(""))
-        {
-            JOptionPane.showMessageDialog(this,"Defina um Ano para o Carro!");
+
+        if (this.txtDescricaoProduto.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Defina uma descricao para o PRODUTO!");
             return false;
         }
-        
-         if(this.txtIdProduto.getText().equalsIgnoreCase(""))
-        {
-            JOptionPane.showMessageDialog(this,"Defina um Ano para o Carro!");
+
+        if (this.txtValorvendaProduto.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Defina UM VALOR PARA O PRODUTO");
             return false;
         }
-        
+
+        if (this.txtEstoqueProduto.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Defina uma quantidade para o Estoque");
+            return false;
+        }
+
+        if (this.txtDescricaoProduto.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Defina uma Descrição para o Produto!");
+            return false;
+        }
+
         return true;
-        
+
+    }
+
+    public void selecionado(int id) {
+        txtIdProduto.getText();
+
     }
 
 }
